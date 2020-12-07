@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct String{
+  char* data;
+  int length;
+}String;
+int CustomCompareString(String str1,String str2){
+  int i,j;
+  if(str1.length>str2.length) return 1; //String 1 is longer than String 2
+  else if(str2.length>str1.length)return -1; //String 2 is longer than String 1
+  else{
+  for(i=0;i<str1.length;i++){
+      if(str1.data[i]!=str2.data[i]) 
+      return -2; //Strings have same length but not equal each other
+    }
+  }
+  return 0;//Strings are equal
+}
+String CustomStringConcat(String source,String concatFrom){
+  String newString;
+  newString.length=source.length+concatFrom.length;
+  newString.data = malloc(sizeof(char)*newString.length);
+  int i,j=0;
+  for(i=0;i<source.length;i++){
+    newString.data[i]=source.data[i];
+  }
+  for(i=source.length;i<=source.length+concatFrom.length;i++){
+    newString.data[i]=concatFrom.data[j];
+    j++;
+  }
+  source.data=newString.data;
+  return source;
+}
+int main(void) {
+  String str1,str2;
+  str1.data=malloc(sizeof(char)*100);
+  str2.data=malloc(sizeof(char)*100);
+  printf("Enter first string:\n");
+  scanf("%s",str1.data);
+  printf("Enter second string:\n");
+  scanf("%s",str2.data);
+  str1.length=strlen(str1.data);
+  str2.length=strlen(str2.data);
+  printf("Comparing strings:\n");
+  if(CustomCompareString(str1, str2)==0){
+    printf("Strings are equal\n");
+  }
+  else{
+    printf("Strings are not equal\n");
+  }
+  printf("Concating strings:\n");
+  str1=CustomStringConcat(str1,str2);
+  printf("%s",str1.data);
+  return 0;
+}
